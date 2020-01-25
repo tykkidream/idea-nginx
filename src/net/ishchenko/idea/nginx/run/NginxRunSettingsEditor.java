@@ -100,6 +100,7 @@ public class NginxRunSettingsEditor extends SettingsEditor<NginxRunConfiguration
         public void onChooseDescriptor(NginxServerDescriptor descriptor) {
             if (descriptor != null) {
                 form.executableField.setText(descriptor.getExecutablePath());
+                form.prefixPathField.setText(descriptor.getPrefixPath());
                 form.configurationField.setText(descriptor.getConfigPath());
                 form.pidField.setText(descriptor.getPidPath());
                 form.globalsField.setText(descriptor.getGlobals());
@@ -107,6 +108,7 @@ public class NginxRunSettingsEditor extends SettingsEditor<NginxRunConfiguration
                 form.errorLogPathField.setText(descriptor.getErrorLogPath());
             } else {
                 form.executableField.setText("");
+                form.prefixPathField.setText("");
                 form.configurationField.setText("");
                 form.pidField.setText("");
                 form.globalsField.setText("");

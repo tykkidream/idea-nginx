@@ -34,6 +34,7 @@ public class NginxServerDescriptor implements Cloneable {
     private String id;
     private String name = "nginx server";
     private String executablePath = "";
+    private String prefixPath = "";
     private String configPath = "";
     private String pidPath = "";
     private String globals = "";
@@ -42,6 +43,14 @@ public class NginxServerDescriptor implements Cloneable {
 
     public NginxServerDescriptor() {
         id = "nginx.descriptor." + System.currentTimeMillis();
+    }
+
+    public String getPrefixPath() {
+        return prefixPath;
+    }
+
+    public void setPrefixPath(String prefixPath) {
+        this.prefixPath = prefixPath;
     }
 
     public String getConfigPath() {
@@ -118,6 +127,7 @@ public class NginxServerDescriptor implements Cloneable {
 
         NginxServerDescriptor that = (NginxServerDescriptor) o;
 
+        if (!Objects.equals(prefixPath, that.prefixPath)) return false;
         if (!Objects.equals(configPath, that.configPath)) return false;
         if (!Objects.equals(errorLogPath, that.errorLogPath)) return false;
         if (!Objects.equals(executablePath, that.executablePath))
@@ -136,6 +146,7 @@ public class NginxServerDescriptor implements Cloneable {
         int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (executablePath != null ? executablePath.hashCode() : 0);
+        result = 31 * result + (prefixPath != null ? prefixPath.hashCode() : 0);
         result = 31 * result + (configPath != null ? configPath.hashCode() : 0);
         result = 31 * result + (pidPath != null ? pidPath.hashCode() : 0);
         result = 31 * result + (globals != null ? globals.hashCode() : 0);

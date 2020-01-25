@@ -45,7 +45,11 @@ public class LinuxSpecificTools implements PlatformDependentTools {
     }
 
     public String[] getStartCommand(NginxServerDescriptor descriptor) {
-        String[] commandWithoutGlobals = {descriptor.getExecutablePath(), "-c", descriptor.getConfigPath()};
+        String[] commandWithoutGlobals = {
+                descriptor.getExecutablePath(),
+                "-p", descriptor.getPrefixPath(),
+                "-c", descriptor.getConfigPath()
+        };
         String[] globals = getGlobals(descriptor);
         return ArrayUtil.mergeArrays(commandWithoutGlobals, globals);
     }
@@ -75,6 +79,8 @@ public class LinuxSpecificTools implements PlatformDependentTools {
         } else {
             prefix = DEFAULT_PREFIX;
         }
+
+        descriptor.setPrefixPath(prefix);
 
         if (compileParameters.getConfigurationPath() != null) {
             descriptor.setConfigPath(compileParameters.getConfigurationPath());
@@ -108,6 +114,7 @@ public class LinuxSpecificTools implements PlatformDependentTools {
         NginxServerDescriptor result = new NginxServerDescriptor();
         result.setName("nginx/Unix [unknown version]");
         result.setExecutablePath(virtualFile.getPath());
+        result.setPrefixPath(DEFAULT_PREFIX);
         result.setConfigPath(DEFAULT_PREFIX + DEFAULT_CONF_PATH);
         result.setPidPath(DEFAULT_PREFIX + DEFAULT_PID_PATH);
         result.setHttpLogPath(DEFAULT_PREFIX + DEFAULT_HTTP_LOG_PATH);

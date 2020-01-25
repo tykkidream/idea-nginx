@@ -37,6 +37,7 @@ public class NginxRunSettingsForm {
 
     JComboBox serverCombo;
     JTextField executableField;
+    JTextField prefixPathField;
     JTextField configurationField;
     JButton configureButton;
     JPanel panel;
@@ -106,27 +107,33 @@ public class NginxRunSettingsForm {
         executableField.setEditable(false);
         executableField.setEnabled(true);
         panel1.add(executableField, cc.xy(3, 3, CellConstraints.FILL, CellConstraints.DEFAULT));
+
+        prefixPathField = new JTextField();
+        prefixPathField.setEditable(false);
+        prefixPathField.setEnabled(true);
+        panel1.add(prefixPathField, cc.xy(3, 5, CellConstraints.FILL, CellConstraints.DEFAULT));
+
         configurationField = new JTextField();
         configurationField.setEditable(false);
         configurationField.setEnabled(true);
-        panel1.add(configurationField, cc.xy(3, 5, CellConstraints.FILL, CellConstraints.DEFAULT));
+        panel1.add(configurationField, cc.xy(3, 7, CellConstraints.FILL, CellConstraints.DEFAULT));
         final JLabel label3 = new JLabel();
         this.$$$loadLabelText$$$(label3, ResourceBundle.getBundle("net/ishchenko/idea/nginx/NginxBundle").getString("run.globals"));
-        panel1.add(label3, cc.xy(1, 9));
+        panel1.add(label3, cc.xy(1, 11));
         globalsField = new JTextField();
         globalsField.setEditable(false);
         globalsField.setEnabled(true);
-        panel1.add(globalsField, cc.xy(3, 9, CellConstraints.FILL, CellConstraints.DEFAULT));
+        panel1.add(globalsField, cc.xy(3, 11, CellConstraints.FILL, CellConstraints.DEFAULT));
         final JLabel label4 = new JLabel();
         this.$$$loadLabelText$$$(label4, ResourceBundle.getBundle("net/ishchenko/idea/nginx/NginxBundle").getString("run.pidpath"));
-        panel1.add(label4, cc.xy(1, 7));
+        panel1.add(label4, cc.xy(1, 9));
         pidField = new JTextField();
         pidField.setEditable(false);
         pidField.setEnabled(true);
-        panel1.add(pidField, cc.xy(3, 7, CellConstraints.FILL, CellConstraints.DEFAULT));
+        panel1.add(pidField, cc.xy(3, 9, CellConstraints.FILL, CellConstraints.DEFAULT));
         final JPanel panel2 = new JPanel();
         panel2.setLayout(new FormLayout("fill:d:noGrow,left:4dlu:noGrow,fill:d:grow", "center:d:noGrow,top:4dlu:noGrow,center:max(d;4px):noGrow,top:4dlu:noGrow,center:max(d;4px):noGrow"));
-        panel.add(panel2, cc.xyw(1, 5, 3));
+        panel.add(panel2, cc.xyw(1, 7, 3));
         panel2.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), ResourceBundle.getBundle("net/ishchenko/idea/nginx/NginxBundle").getString("run.logFiles")));
         showHttpLogCheckBox = new JCheckBox();
         this.$$$loadButtonText$$$(showHttpLogCheckBox, ResourceBundle.getBundle("net/ishchenko/idea/nginx/NginxBundle").getString("run.showAccessLog"));

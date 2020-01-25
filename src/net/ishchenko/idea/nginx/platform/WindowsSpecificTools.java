@@ -50,7 +50,11 @@ public class WindowsSpecificTools implements PlatformDependentTools {
     }
 
     public String[] getStartCommand(NginxServerDescriptor descriptor) {
-        String[] commandWithoutGlobals = new String[]{descriptor.getExecutablePath(), "-c", descriptor.getConfigPath()};
+        String[] commandWithoutGlobals = new String[]{
+                descriptor.getExecutablePath(),
+                "-p", descriptor.getPrefixPath(),
+                "-c", descriptor.getConfigPath(),
+        };
         String[] globals = getGlobals(descriptor);
         return ArrayUtil.mergeArrays(commandWithoutGlobals, globals);
     }
@@ -84,6 +88,7 @@ public class WindowsSpecificTools implements PlatformDependentTools {
             prefix = file.getParent().getPath(); // There is no default prefix for windows, so let it be current dir
         }
 
+        descriptor.setPrefixPath(prefix);
         descriptor.setConfigPath(getPrefixDependentSettings(compileParameters.getConfigurationPath(), prefix, DEFAULT_CONF_PATH));
         descriptor.setPidPath(getPrefixDependentSettings(compileParameters.getPidPath(), prefix, DEFAULT_PID_PATH));
 
@@ -99,6 +104,7 @@ public class WindowsSpecificTools implements PlatformDependentTools {
         NginxServerDescriptor result = new NginxServerDescriptor();
         result.setName("nginx/Windows [unknown version]");
         result.setExecutablePath(virtualFile.getPath());
+        result.setPrefixPath(virtualFile.getPath());
         result.setConfigPath(virtualFile.getParent().getPath() + DEFAULT_CONF_PATH);
         result.setPidPath(virtualFile.getParent().getPath() + DEFAULT_PID_PATH);
         result.setHttpLogPath(virtualFile.getParent().getPath() + DEFAULT_HTTP_LOG_PATH);

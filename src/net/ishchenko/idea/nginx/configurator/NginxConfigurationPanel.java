@@ -165,6 +165,7 @@ public class NginxConfigurationPanel {
         JButton removeButton;
         JTextField nameField;
         JTextField executableField;
+        JTextField prefixField;
         JTextField configField;
         JTextField pidField;
         JTextField globalsField;
@@ -196,6 +197,7 @@ public class NginxConfigurationPanel {
             ((DefaultListModel) serverList.getModel()).removeElement(descriptor);
             nameField.setText("");
             executableField.setText("");
+            prefixField.setText("");
             configField.setText("");
             pidField.setText("");
             globalsField.setText("");
@@ -205,6 +207,7 @@ public class NginxConfigurationPanel {
         public void showDescriptor(NginxServerDescriptor descriptor) {
             nameField.setText(descriptor.getName());
             executableField.setText(descriptor.getExecutablePath());
+            prefixField.setText(descriptor.getPrefixPath());
             configField.setText(descriptor.getConfigPath());
             pidField.setText(descriptor.getPidPath());
             globalsField.setText(descriptor.getGlobals());
@@ -222,6 +225,7 @@ public class NginxConfigurationPanel {
 
                 if (descriptor != null) {
                     executableField.setText(descriptor.getExecutablePath());
+                    prefixField.setText(descriptor.getPrefixPath());
                     configField.setText(descriptor.getConfigPath());
                     pidField.setText(descriptor.getPidPath());
                     sync();
@@ -251,6 +255,15 @@ public class NginxConfigurationPanel {
             return descriptor;
         }
 
+        public void choosePrefixPathClicked() {
+            VirtualFile oldFile = LocalFileSystem.getInstance().findFileByPath(prefixField.getText());
+            VirtualFile[] file = FileChooser.chooseFiles(FileChooserDescriptorFactory.createSingleFileNoJarsDescriptor(), serverList, null, oldFile);
+            if (file.length > 0) {
+                prefixField.setText(file[0].getPath());
+                sync();
+            }
+        }
+
         public void chooseConfigurationClicked() {
             VirtualFile oldFile = LocalFileSystem.getInstance().findFileByPath(configField.getText());
             VirtualFile[] file = FileChooser.chooseFiles(FileChooserDescriptorFactory.createSingleFileNoJarsDescriptor(), serverList, null, oldFile);
@@ -274,6 +287,7 @@ public class NginxConfigurationPanel {
                 NginxServerDescriptor descriptor = (NginxServerDescriptor) serverList.getSelectedValue();
                 descriptor.setName(nameField.getText());
                 descriptor.setExecutablePath(executableField.getText());
+                descriptor.setPrefixPath(prefixField.getText());
                 descriptor.setConfigPath(configField.getText());
                 descriptor.setPidPath(pidField.getText());
                 descriptor.setGlobals(globalsField.getText());

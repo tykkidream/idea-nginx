@@ -35,6 +35,7 @@ public class ServerFieldsForm {
     private JTextField nameField;
     private ComponentWithBrowseButton<JTextField> executableField;
     private ComponentWithBrowseButton<JTextField> configurationField;
+    private ComponentWithBrowseButton<JTextField> prefixPathField;
     private ComponentWithBrowseButton<JTextField> pidField;
     private JTextField globalsField;
 
@@ -57,12 +58,17 @@ public class ServerFieldsForm {
 
         executableField.addActionListener(e -> SwingUtilities.invokeLater(mediator::chooseExecutableClicked));
 
+        prefixPathField.addActionListener(e -> SwingUtilities.invokeLater(mediator::choosePrefixPathClicked));
+
         configurationField.addActionListener(e -> SwingUtilities.invokeLater(mediator::chooseConfigurationClicked));
 
         pidField.addActionListener(e -> SwingUtilities.invokeLater(mediator::choosePidClicked));
 
+
+
         mediator.nameField = nameField;
         mediator.executableField = executableField.getChildComponent();
+        mediator.prefixField = prefixPathField.getChildComponent();
         mediator.configField = configurationField.getChildComponent();
         mediator.pidField = pidField.getChildComponent();
         mediator.globalsField = globalsField;
@@ -77,6 +83,7 @@ public class ServerFieldsForm {
     private void createUIComponents() {
         executableField = new ComponentWithBrowseButton<>(new JTextField(), null);
         configurationField = new ComponentWithBrowseButton<>(new JTextField(), null);
+        prefixPathField = new ComponentWithBrowseButton<>(new JTextField(), null);
         pidField = new ComponentWithBrowseButton<>(new JTextField(), null);
     }
 
@@ -89,32 +96,94 @@ public class ServerFieldsForm {
      */
     private void $$$setupUI$$$() {
         createUIComponents();
+
         panel = new JPanel();
         panel.setLayout(new FormLayout("fill:max(d;4px):noGrow,left:4dlu:noGrow,fill:d:grow", "center:d:noGrow,top:4dlu:noGrow,center:max(d;4px):noGrow,top:4dlu:noGrow,center:max(d;4px):noGrow,top:4dlu:noGrow,center:max(d;4px):noGrow,top:4dlu:noGrow,center:max(d;4px):noGrow"));
-        nameField = new JTextField();
-        nameField.setText("");
+
         CellConstraints cc = new CellConstraints();
-        panel.add(nameField, cc.xy(3, 1, CellConstraints.FILL, CellConstraints.DEFAULT));
-        final JLabel label1 = new JLabel();
-        this.$$$loadLabelText$$$(label1, ResourceBundle.getBundle("net/ishchenko/idea/nginx/NginxBundle").getString("run.servername"));
-        panel.add(label1, cc.xy(1, 1));
-        final JLabel label2 = new JLabel();
-        this.$$$loadLabelText$$$(label2, ResourceBundle.getBundle("net/ishchenko/idea/nginx/NginxBundle").getString("run.executable"));
-        panel.add(label2, cc.xy(1, 3));
-        panel.add(executableField, cc.xy(3, 3, CellConstraints.FILL, CellConstraints.DEFAULT));
-        final JLabel label3 = new JLabel();
-        this.$$$loadLabelText$$$(label3, ResourceBundle.getBundle("net/ishchenko/idea/nginx/NginxBundle").getString("run.configuration"));
-        panel.add(label3, cc.xy(1, 5));
-        panel.add(configurationField, cc.xy(3, 5, CellConstraints.FILL, CellConstraints.DEFAULT));
-        final JLabel label4 = new JLabel();
-        this.$$$loadLabelText$$$(label4, ResourceBundle.getBundle("net/ishchenko/idea/nginx/NginxBundle").getString("run.globals"));
-        panel.add(label4, cc.xy(1, 9));
-        globalsField = new JTextField();
-        panel.add(globalsField, cc.xy(3, 9, CellConstraints.FILL, CellConstraints.DEFAULT));
-        final JLabel label5 = new JLabel();
-        this.$$$loadLabelText$$$(label5, ResourceBundle.getBundle("net/ishchenko/idea/nginx/NginxBundle").getString("run.pidpath"));
-        panel.add(label5, cc.xy(1, 7));
-        panel.add(pidField, cc.xy(3, 7, CellConstraints.FILL, CellConstraints.DEFAULT));
+
+        ResourceBundle bundle = ResourceBundle.getBundle("net/ishchenko/idea/nginx/NginxBundle");
+
+        {
+            // server name label
+            final JLabel label1 = new JLabel();
+            this.$$$loadLabelText$$$(label1, bundle.getString("run.servername"));
+            panel.add(label1, cc.xy(1, 1));
+        }
+
+        {
+            // server name field
+            nameField = new JTextField();
+            nameField.setText("");
+            panel.add(nameField, cc.xy(3, 1, CellConstraints.FILL, CellConstraints.DEFAULT));
+        }
+
+        {
+            // executable label
+            final JLabel label2 = new JLabel();
+            this.$$$loadLabelText$$$(label2, bundle.getString("run.executable"));
+            panel.add(label2, cc.xy(1, 3));
+        }
+
+        {
+            // executable field
+            panel.add(executableField, cc.xy(3, 3, CellConstraints.FILL, CellConstraints.DEFAULT));
+        }
+
+        {
+            // prefix path label
+            String text = bundle.getString("run.prefixPath");
+
+            final JLabel jLabel = new JLabel();
+            this.$$$loadLabelText$$$(jLabel, text);
+
+            panel.add(jLabel, cc.xy(1, 5));
+        }
+
+        {
+            // prefix path field
+            panel.add(prefixPathField, cc.xy(3, 5, CellConstraints.FILL, CellConstraints.DEFAULT));
+        }
+
+        {
+            // configuration label
+            String text = bundle.getString("run.configuration");
+
+            final JLabel jLabel = new JLabel();
+            this.$$$loadLabelText$$$(jLabel, text);
+
+            panel.add(jLabel, cc.xy(1, 7));
+        }
+
+        {
+            // configuration field
+            panel.add(configurationField, cc.xy(3, 7, CellConstraints.FILL, CellConstraints.DEFAULT));
+        }
+
+        {
+            // pid path label
+            final JLabel label5 = new JLabel();
+            this.$$$loadLabelText$$$(label5, bundle.getString("run.pidpath"));
+            panel.add(label5, cc.xy(1, 9));
+        }
+
+        {
+            // pid path field
+            panel.add(pidField, cc.xy(3, 9, CellConstraints.FILL, CellConstraints.DEFAULT));
+        }
+
+        {
+            // globals label
+            final JLabel label4 = new JLabel();
+            this.$$$loadLabelText$$$(label4, bundle.getString("run.globals"));
+            panel.add(label4, cc.xy(1, 11));
+        }
+
+        {
+            // globals field
+            globalsField = new JTextField();
+            panel.add(globalsField, cc.xy(3, 11, CellConstraints.FILL, CellConstraints.DEFAULT));
+        }
     }
 
     /**
